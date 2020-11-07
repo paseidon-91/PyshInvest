@@ -1,0 +1,7 @@
+/* Formatted on 07/11/2020 11:49:14 (QP5 v5.354) */
+ALTER SESSION SET "_ORACLE_SCRIPT" = TRUE;
+
+CREATE USER pysh_dba
+    IDENTIFIED BY root;
+    
+GRANT ALL PRIVILEGES TO pysh_dba;

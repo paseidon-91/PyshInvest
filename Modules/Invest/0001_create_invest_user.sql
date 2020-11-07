@@ -1,0 +1,7 @@
+/* Formatted on 07/11/2020 11:52:24 (QP5 v5.354) */
+ALTER SESSION SET "_ORACLE_SCRIPT" = TRUE;
+
+CREATE USER invest
+    IDENTIFIED BY developer;
+
+GRANT ALL PRIVILEGES TO invest;
