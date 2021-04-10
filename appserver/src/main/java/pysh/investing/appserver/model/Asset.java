@@ -1,24 +1,49 @@
 package pysh.investing.appserver.model;
 
 import lombok.Data;
+import lombok.NoArgsConstructor;
 
+import javax.persistence.*;
+
+/**
+ * Ценная бумага
+ */
 @Data
+@NoArgsConstructor
+@Entity
+@Table(name = "asset", schema = "investing")
 public class Asset {
-/*
-    create table investing.asset ( id serial primary key,
-    name varchar(254),
-    isin varchar(64),
-    type_id int8 REFERENCES investing.asset_type (id),
-    currency_id int8 references investing.currency_register (id),
-    fund_id int8 references investing.management_type (id),
-    sector_id int8 references investing.sector(id));
-*/
 
+    @Id
+    @GeneratedValue(strategy = GenerationType.AUTO)
     private Long id;
+
+    @Column(name = "name")
     private String name;
+
+    @Column(name = "isin")
     private String isin;
+
+    @ManyToOne
+    @JoinColumn(name = "type_id")
     private AssetType assetType;
+
+    @ManyToOne
+    @JoinColumn(name = "currency_id")
     private Currency currency;
+
+    @ManyToOne
+    @JoinColumn(name = "fund_id")
     private ManagementType managementType;
+
+    @ManyToOne
+    @JoinColumn(name = "sector_id")
     private Sector sector;
+
+//    @OneToMany
+//    @JoinColumn(name = "id")
+//    private Set<Transaction> transactionSet;
+//    @OneToMany
+//    @JoinColumn(name = "id")
+//    private Set<AssetBalance> assetBalanceSet;
 }

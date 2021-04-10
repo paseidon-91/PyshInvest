@@ -10,7 +10,7 @@ import java.util.Map;
 
 @RestController
 @RequestMapping("message")
-public class MessageController {
+public class MainController {
     private int counter = 4;
 
     private List<Map<String, String>> messages = new ArrayList<Map<String, String>>() {{
@@ -45,20 +45,4 @@ public class MessageController {
         return message;
     }
 
-    @PutMapping("{id}")
-    public Map<String, String> update(@PathVariable String id, @RequestBody Map<String, String> message) {
-        Map<String, String> messageFromDb = getMessage(id);
-
-        messageFromDb.putAll(message);
-        messageFromDb.put("id", id);
-
-        return messageFromDb;
-    }
-
-    @DeleteMapping("{id}")
-    public void delete(@PathVariable String id) {
-        Map<String, String> message = getMessage(id);
-
-        messages.remove(message);
-    }
 }

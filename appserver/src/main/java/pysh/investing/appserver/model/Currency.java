@@ -1,16 +1,33 @@
 package pysh.investing.appserver.model;
 
 import lombok.Data;
+import lombok.NoArgsConstructor;
 
+import javax.persistence.*;
+
+/**
+ * Валюта
+ */
 @Data
+@NoArgsConstructor
+@Entity
+@Table(name = "currency_register", schema = "investing")
 public class Currency {
-/*
-    create table investing.currency_register ( id serial primary key,
-    name varchar(254),
-    designation varchar(64) );
-*/
 
+    @Id
+    @GeneratedValue(strategy = GenerationType.AUTO)
     private Long id;
+
+    @Column(name = "name")
     private String name;
+
+    /**
+     * Обозначение
+     */
+    @Column(name = "designation")
     private String designation;
+
+//    @OneToMany
+//    @JoinColumn(name = "id")
+//    private Set<Account> accountSet;
 }
