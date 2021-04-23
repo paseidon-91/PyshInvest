@@ -1,4 +1,4 @@
-package pysh.investing.appserver.exceptions;
+package pysh.investing.appserver.exception;
 
 import org.springframework.http.HttpStatus;
 import org.springframework.web.bind.annotation.ResponseStatus;

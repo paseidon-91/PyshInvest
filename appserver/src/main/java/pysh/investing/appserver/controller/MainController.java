@@ -1,7 +1,10 @@
 package pysh.investing.appserver.controller;
 
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
-import pysh.investing.appserver.exceptions.NotFoundException;
+import pysh.investing.appserver.exception.NotFoundException;
+import pysh.investing.appserver.model.AssetType;
+import pysh.investing.appserver.service.AssetTypeService;
 
 import java.util.ArrayList;
 import java.util.HashMap;
@@ -11,6 +14,9 @@ import java.util.Map;
 @RestController
 @RequestMapping("message")
 public class MainController {
+
+    private final AssetTypeService assetTypeService;
+
     private int counter = 4;
 
     private List<Map<String, String>> messages = new ArrayList<Map<String, String>>() {{
@@ -19,9 +25,14 @@ public class MainController {
         add(new HashMap<String, String>() {{ put("id", "3"); put("text", "Third message"); }});
     }};
 
+    @Autowired
+    public MainController(AssetTypeService assetTypeService) {
+        this.assetTypeService = assetTypeService;
+    }
+
     @GetMapping
-    public List<Map<String, String>> list() {
-        return messages;
+    public List<AssetType> list() {
+        return assetTypeService.findAll();
     }
 
     @GetMapping("{id}")

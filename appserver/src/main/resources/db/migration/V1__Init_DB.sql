@@ -70,7 +70,6 @@ create table investing.transaction
     account_id          int8,
     asset_id            int8,
     transaction_type_id int8,
-    account_id          int8,
     primary key (id)
 );
 create table investing.transaction_type
@@ -89,7 +88,7 @@ create table investing.user
     username varchar(255),
     primary key (id)
 );
-create sequence hibernate_sequence start 1 increment 1;
+create sequence hibernate_sequence start 10001 increment 1;
 alter table if exists investing.account add constraint account_currency_register_fk foreign key (currency_id) references investing.currency_register;
 alter table if exists investing.account add constraint account_portfolio_fk foreign key (portfolio_id) references investing.portfolio;
 alter table if exists investing.asset add constraint asset_asset_type_fk foreign key (type_id) references investing.asset_type;
@@ -102,4 +101,3 @@ alter table if exists investing.portfolio add constraint portfolio_user_fk forei
 alter table if exists investing.transaction add constraint transaction_account_fk foreign key (account_id) references investing.account;
 alter table if exists investing.transaction add constraint transaction_asset_fk foreign key (asset_id) references investing.asset;
 alter table if exists investing.transaction add constraint transaction_transaction_type_fk foreign key (transaction_type_id) references investing.transaction_type;
-alter table if exists investing.transaction add constraint transaction_account_fk foreign key (account_id) references investing.account;

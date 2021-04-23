@@ -51,6 +51,12 @@
             <artifactId>postgresql</artifactId>
             <version>42.2.18</version>
         </dependency>
+        <!--DB migration-->
+        <dependency>
+            <groupId>org.flywaydb</groupId>
+            <artifactId>flyway-core</artifactId>
+        </dependency>
+
 
     </dependencies>
 
@@ -59,6 +65,12 @@
             <plugin>
                 <groupId>org.springframework.boot</groupId>
                 <artifactId>spring-boot-maven-plugin</artifactId>
+            </plugin>
+            <!--DB migration-->
+            <plugin>
+                <groupId>org.flywaydb</groupId>
+                <artifactId>flyway-maven-plugin</artifactId>
+                <version>5.1.4</version>
             </plugin>
         </plugins>
     </build>
