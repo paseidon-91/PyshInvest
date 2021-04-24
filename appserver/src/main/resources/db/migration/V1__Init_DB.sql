@@ -48,7 +48,7 @@ create table investing.management_type
 create table investing.portfolio
 (
     id      int8 not null,
-    user_id int8,
+    user_id varchar(255),
     primary key (id)
 );
 create table investing.sector
@@ -81,13 +81,18 @@ create table investing.transaction_type
 );
 create table investing.user
 (
-    id       int8 not null,
-    active   boolean,
-    email    varchar(255),
-    password varchar(255),
-    username varchar(255),
+    id         varchar(255) not null,
+    active     boolean,
+    email      varchar(255),
+    gender     varchar(255),
+    last_visit timestamp,
+    locale     varchar(255),
+    username   varchar(255),
+    password   varchar(255),
+    userpic    varchar(255),
     primary key (id)
 );
+
 create sequence hibernate_sequence start 10001 increment 1;
 alter table if exists investing.account add constraint account_currency_register_fk foreign key (currency_id) references investing.currency_register;
 alter table if exists investing.account add constraint account_portfolio_fk foreign key (portfolio_id) references investing.portfolio;

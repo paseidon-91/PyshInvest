@@ -1,59 +1,56 @@
 package pysh.investing.appserver.controller;
 
+import com.fasterxml.jackson.core.JsonProcessingException;
+import com.fasterxml.jackson.databind.ObjectMapper;
+import com.fasterxml.jackson.databind.ObjectWriter;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.beans.factory.annotation.Value;
+import org.springframework.security.core.annotation.AuthenticationPrincipal;
+import org.springframework.stereotype.Controller;
+import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.*;
-import pysh.investing.appserver.exception.NotFoundException;
-import pysh.investing.appserver.model.AssetType;
-import pysh.investing.appserver.service.AssetTypeService;
+import pysh.investing.appserver.model.User;
+import pysh.investing.appserver.model.Views;
+import pysh.investing.appserver.repository.AssetTypeRepository;
 
-import java.util.ArrayList;
 import java.util.HashMap;
-import java.util.List;
-import java.util.Map;
 
-@RestController
-@RequestMapping("message")
+@Controller
+@RequestMapping("/")
 public class MainController {
+    private final AssetTypeRepository assetTypeRepository;
 
-    private final AssetTypeService assetTypeService;
-
-    private int counter = 4;
-
-    private List<Map<String, String>> messages = new ArrayList<Map<String, String>>() {{
-        add(new HashMap<String, String>() {{ put("id", "1"); put("text", "First message"); }});
-        add(new HashMap<String, String>() {{ put("id", "2"); put("text", "Second message"); }});
-        add(new HashMap<String, String>() {{ put("id", "3"); put("text", "Third message"); }});
-    }};
+    @Value("${spring.profiles.active}")
+    private String profile;
+    private final ObjectWriter writer;
 
     @Autowired
-    public MainController(AssetTypeService assetTypeService) {
-        this.assetTypeService = assetTypeService;
+    public MainController(AssetTypeRepository assetTypeRepository, ObjectMapper mapper) {
+        this.assetTypeRepository = assetTypeRepository;
+        writer = mapper
+                .setConfig(mapper.getSerializationConfig())
+                .writerWithView(Views.FullMessage.class);
     }
 
     @GetMapping
-    public List<AssetType> list() {
-        return assetTypeService.findAll();
-    }
+    public String main(
+            Model model,
+            @AuthenticationPrincipal User user) throws JsonProcessingException {
+        HashMap<Object, Object> data = new HashMap<>();
 
-    @GetMapping("{id}")
-    public Map<String, String> getOne(@PathVariable String id) {
-        return getMessage(id);
-    }
+        if (user != null) {
+            data.put("profile", user);
 
-    private Map<String, String> getMessage(@PathVariable String id) {
-        return messages.stream()
-                .filter(message -> message.get("id").equals(id))
-                .findFirst()
-                .orElseThrow(NotFoundException::new);
-    }
+            String messages = writer.writeValueAsString(assetTypeRepository.findAll());
+//            model.addAttribute("messages", messages);
+            model.addAttribute("messages", "[]");
+        } else {
+            model.addAttribute("messages", "[]");
+        }
 
-    @PostMapping
-    public Map<String, String> create(@RequestBody Map<String, String> message) {
-        message.put("id", String.valueOf(counter++));
-
-        messages.add(message);
-
-        return message;
+        model.addAttribute("frontendData", data);
+        model.addAttribute("isDevMode", "dev".equals(profile));
+        return "index";
     }
 
 }

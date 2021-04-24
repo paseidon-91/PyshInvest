@@ -1,5 +1,6 @@
 package pysh.investing.appserver.model;
 
+import com.fasterxml.jackson.annotation.JsonView;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 
@@ -18,9 +19,11 @@ public class AssetType {
 
     @Id
     @GeneratedValue(strategy = GenerationType.AUTO)
+    @JsonView(Views.IdName.class)
     private Long id;
 
     @Column(name = "name")
+    @JsonView(Views.IdName.class)
     private String name;
 
     /**
@@ -31,6 +34,7 @@ public class AssetType {
     private AssetType parentAssetType;
 
     @Column(name = "comment")
+    @JsonView(Views.FullMessage.class)
     private String comment;
 
 //    @OneToMany
