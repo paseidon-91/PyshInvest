@@ -34,7 +34,7 @@ public class AssetTypeController {
     @Autowired
     public AssetTypeController(AssetTypeRepository assetTypeRepository, WsSender wsSender) {
         this.assetTypeRepository = assetTypeRepository;
-        this.wsSender = wsSender.getSender(ObjectType.MESSAGE, Views.IdName.class);
+        this.wsSender = wsSender.getSender(ObjectType.ASSET_TYPE, Views.IdName.class);
     }
 
     @GetMapping

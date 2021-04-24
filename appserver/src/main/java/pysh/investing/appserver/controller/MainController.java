@@ -41,11 +41,10 @@ public class MainController {
         if (user != null) {
             data.put("profile", user);
 
-            String messages = writer.writeValueAsString(assetTypeRepository.findAll());
-//            model.addAttribute("messages", messages);
-            model.addAttribute("messages", "[]");
+            String assetTypes = writer.writeValueAsString(assetTypeRepository.findAll());
+            model.addAttribute("assetTypes", assetTypes);
         } else {
-            model.addAttribute("messages", "[]");
+            model.addAttribute("assetTypes", "[]");
         }
 
         model.addAttribute("frontendData", data);

@@ -31,6 +31,7 @@ public class AssetType {
      */
     @OneToOne
     @JoinColumn(name = "parent_id")
+    @JsonView(Views.FullMessage.class)
     private AssetType parentAssetType;
 
     @Column(name = "comment")

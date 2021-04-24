@@ -1,6 +1,6 @@
 import Vue from 'vue'
 import VueRouter from 'vue-router'
-import MessageList from "../pages/MessageList.vue"
+import MessageList from "../pages/AssetTypeList.vue"
 import Auth from "../pages/Auth.vue"
 import Profile from "../pages/Profile.vue"
 

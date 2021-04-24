@@ -10,8 +10,8 @@ export function connect() {
     // отключаем логирование
     stompClient.debug = () => {}
     stompClient.connect({}, frame => {
-        stompClient.subscribe('/topic/activity', message => {
-            handlers.forEach(handler => handler(JSON.parse(message.body)))
+        stompClient.subscribe('/topic/activity', assetType => {
+            handlers.forEach(handler => handler(JSON.parse(assetType.body)))
         })
     })
 }
@@ -28,6 +28,6 @@ export function disconnect() {
     console.log("Disconnected")
 }
 
-export function sendMessage(message) {
-    stompClient.send("/app/changeMessage", {}, JSON.stringify(message))
+export function sendAssetType(assetType) {
+    stompClient.send("/app/changeAssetType", {}, JSON.stringify(assetType))
 }

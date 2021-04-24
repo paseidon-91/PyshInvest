@@ -1,5 +1,5 @@
 package pysh.investing.appserver.dto;
 
 public enum ObjectType {
-    MESSAGE, COMMENT
+    ASSET_TYPE, COMMENT
 }

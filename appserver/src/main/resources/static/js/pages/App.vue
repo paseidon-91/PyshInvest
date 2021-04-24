@@ -6,7 +6,7 @@
       <v-toolbar-title>PysInvesting</v-toolbar-title>
       <v-btn text v-if="profile"
              :disabled="this.$route.path === '/'"
-             @click="showMessages">
+             @click="showAssetTypes">
         Типы активов
       </v-btn>
 
@@ -33,12 +33,12 @@ export default {
   computed: mapState(['profile']),
   methods: {
     ...mapMutations([
-      'addMessageMutation',
-      'updateMessageMutation',
-      'removeMessageMutation',
+      'addAssetTypeMutation',
+      'updateAssetTypeMutation',
+      'removeAssetTypeMutation',
       'addCommentMutation'
     ]),
-    showMessages() {
+    showAssetTypes() {
       this.$router.push('/')
     },
     showProfile() {
@@ -47,16 +47,16 @@ export default {
   },
   created() {
     addHandler(data => {
-      if (data.objectType === 'MESSAGE') {
+      if (data.objectType === 'ASSET_TYPE') {
         switch (data.eventType) {
           case 'CREATE':
-            this.addMessageMutation(data.body)
+            this.addAssetTypeMutation(data.body)
             break;
           case 'UPDATE':
-            this.updateMessageMutation(data.body)
+            this.updateAssetTypeMutation(data.body)
             break;
           case 'REMOVE':
-            this.removeMessageMutation(data.body)
+            this.removeAssetTypeMutation(data.body)
             break;
           default:
             console.error(`Looks like the event type is unknown "${data.eventType}"`)

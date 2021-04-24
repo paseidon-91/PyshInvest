@@ -1,9 +1,9 @@
 <template>
   <v-layout row class="my-4">
     <v-text-field
-        label="New message"
+        label="New asset type"
         placeholder="Write something"
-        v-model="text"
+        v-model="name"
         @keyup.enter="save"
     ></v-text-field>
     <v-btn @click="save">
@@ -16,34 +16,34 @@
 import {mapActions} from 'vuex'
 
 export default {
-  props: ['messageAttr'],
+  props: ['assetTypeAttr'],
   data() {
     return {
-      text: '',
+      name: '',
       id: ''
     }
   },
   watch: {
-    messageAttr(newVal, oldVal) {
-      this.text = newVal.text
+    assetTypeAttr(newVal, oldVal) {
+      this.name = newVal.name
       this.id = newVal.id
     }
   },
   methods: {
-    ...mapActions(['addMessageAction', 'updateMessageAction']),
+    ...mapActions(['addAssetTypeAction', 'updateAssetTypeAction']),
     save() {
-      const message = {
+      const assetType = {
         id: this.id,
-        text: this.text
+        name: this.name
       }
       if (this.id) {
-        this.updateMessageAction(message)
+        this.updateAssetTypeAction(assetType)
       } else {
-        this.addMessageAction(message)
+        this.addAssetTypeAction(assetType)
       }
 
       this.id = ''
-      this.text = ''
+      this.name = ''
     }
   }
 }

@@ -12,8 +12,8 @@
 
 <script>
 import {mapGetters} from 'vuex'
-import AssetTypeForm from "../components/messages/AssetTypeForm.vue";
-import AssetTypeRow from "../components/messages/AssetTypeRow.vue";
+import AssetTypeForm from "../components/assettype/AssetTypeForm.vue"
+import AssetTypeRow from "../components/assettype/AssetTypeRow.vue"
 
 export default {
   components: {

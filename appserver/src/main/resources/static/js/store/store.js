@@ -1,85 +1,85 @@
 import Vue from 'vue'
 import Vuex from 'vuex'
-import messagesApi from "../api/messages"
+import assetTypesApi from "../api/assetType"
 import commentApi from "../api/comment"
 
 Vue.use(Vuex)
 
 export default new Vuex.Store({
     state: {
-        messages,
+        assetTypes,
         profile: frontendData.profile
     },
     getters: {
-        sortedMessages: state => (state.messages || []).sort((a, b) => -(a.id - b.id))
+        sortedAssetTypes: state => (state.assetTypes || []).sort((a, b) => -(a.id - b.id))
     },
     mutations: {
-        addMessageMutation(state, message) {
-            this.state.messages = [
-                ...state.messages,
-                message
+        addAssetTypeMutation(state, assetType) {
+            this.state.assetTypes = [
+                ...state.assetTypes,
+                assetType
             ]
         },
-        updateMessageMutation(state, message) {
-            const updateIndex = state.messages.findIndex(item => item.id === message.id)
+        updateAssetTypeMutation(state, assetType) {
+            const updateIndex = state.assetTypes.findIndex(item => item.id === assetType.id)
 
-            state.messages = [
-                ...state.messages.slice(0, updateIndex),
-                message,
-                ...state.messages.slice(updateIndex + 1)
+            state.assetTypes = [
+                ...state.assetTypes.slice(0, updateIndex),
+                assetType,
+                ...state.assetTypes.slice(updateIndex + 1)
             ]
 
         },
-        removeMessageMutation(state, message) {
-            const deletionIndex = state.messages.findIndex(item => item.id === message.id)
+        removeAssetTypeMutation(state, assetType) {
+            const deletionIndex = state.assetTypes.findIndex(item => item.id === assetType.id)
 
             if (deletionIndex > -1) {
-                state.messages = [
-                    ...state.messages.slice(0, deletionIndex),
-                    ...state.messages.slice(deletionIndex + 1)
+                state.assetTypes = [
+                    ...state.assetTypes.slice(0, deletionIndex),
+                    ...state.assetTypes.slice(deletionIndex + 1)
                 ]
             }
         },
         addCommentMutation(state, comment) {
-            const updateIndex = state.messages.findIndex(item => item.id === comment.message.id)
-            const message = state.messages[updateIndex]
+            const updateIndex = state.assetTypes.findIndex(item => item.id === comment.assetType.id)
+            const assetType = state.assetTypes[updateIndex]
 
-            if (!message.comments.find(it => it.id === comment.id)) {
-                state.messages = [
-                    ...state.messages.slice(0, updateIndex),
+            if (!assetType.comments.find(it => it.id === comment.id)) {
+                state.assetTypes = [
+                    ...state.assetTypes.slice(0, updateIndex),
                     {
-                        ...message,
+                        ...assetType,
                         comments: [
-                            ...message.comments,
+                            ...assetType.comments,
                             comment
                         ]
                     },
-                    ...state.messages.slice(updateIndex + 1)
+                    ...state.assetTypes.slice(updateIndex + 1)
                 ]
             }
 
         }
     },
     actions: {
-        async addMessageAction({commit, state}, message) {
-            const result = await messagesApi.add(message)
+        async addAssetTypeAction({commit, state}, assetType) {
+            const result = await assetTypesApi.add(assetType)
             const data = await result.json()
-            const index = state.messages.findIndex(item => item.id === data.id)
+            const index = state.assetTypes.findIndex(item => item.id === data.id)
             if (index > -1) {
-                commit('updateMessageMutation', data)
+                commit('updateAssetTypeMutation', data)
             } else {
-                commit('addMessageMutation', data)
+                commit('addAssetTypeMutation', data)
             }
         },
-        async updateMessageAction({commit}, message) {
-            const result = await messagesApi.update(message)
+        async updateAssetTypeAction({commit}, assetType) {
+            const result = await assetTypesApi.update(assetType)
             const data = await result.json()
-            commit('updateMessageMutation', data)
+            commit('updateAssetTypeMutation', data)
         },
-        async removeMessageAction({commit}, message) {
-            const result = await messagesApi.remove(message.id)
+        async removeAssetTypeAction({commit}, assetType) {
+            const result = await assetTypesApi.remove(assetType.id)
             if (result.ok) {
-                commit('removeMessageMutation', message)
+                commit('removeAssetTypeMutation', assetType)
             }
         },
         async addCommentAction({commit, state}, comment) {
